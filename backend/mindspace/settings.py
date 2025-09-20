@@ -193,13 +193,9 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-'''ACCOUNT_EMAIL_REQUIRED = False
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_EMAIL_VERIFICATION = "none"'''
-
-ACCOUNT_LOGIN_METHODS = {"email"}  # log in via email only
-ACCOUNT_SIGNUP_FIELDS = ["email", "password1*", "password2*"]
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_SIGNUP_FIELDS = ["email"]
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 
 # Social Account Providers

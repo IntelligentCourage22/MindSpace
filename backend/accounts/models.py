@@ -62,6 +62,11 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         if not self.alias:
             self.alias = generate_random_alias()
+        
+        # For anonymous users, ensure email is None to avoid unique constraint issues
+        if self.is_anonymous_user and not self.email:
+            self.email = None
+            
         super().save(*args, **kwargs)
 
 

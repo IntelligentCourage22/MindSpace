@@ -118,4 +118,34 @@ export const testAPIConnection = async () => {
   }
 };
 
+// Journal API
+export const journalAPI = {
+  getEntries: () => api.get('/journal/entries/').then(res => res.data),
+  createEntry: (data) => api.post('/journal/entries/', data).then(res => res.data),
+  updateEntry: (id, data) => api.patch(`/journal/entries/${id}/`, data).then(res => res.data),
+  deleteEntry: (id) => api.delete(`/journal/entries/${id}/`).then(res => res.data),
+  getStats: () => api.get('/journal/stats/').then(res => res.data),
+  getChartData: (days = 30) => api.get(`/journal/chart-data/?days=${days}`).then(res => res.data),
+};
+
+// Feed API
+export const feedAPI = {
+  getPosts: () => api.get('/feed/posts/').then(res => res.data),
+  createPost: (data) => api.post('/feed/posts/', data).then(res => res.data),
+  likePost: (id) => api.post(`/feed/posts/${id}/like/`).then(res => res.data),
+  unlikePost: (id) => api.post(`/feed/posts/${id}/unlike/`).then(res => res.data),
+  addComment: (id, data) => api.post(`/feed/posts/${id}/comments/`, data).then(res => res.data),
+  getStats: () => api.get('/feed/stats/').then(res => res.data),
+};
+
+// Chat API
+export const chatAPI = {
+  getRooms: () => api.get('/chat/rooms/').then(res => res.data),
+  createRoom: (data) => api.post('/chat/rooms/', data).then(res => res.data),
+  joinRoom: (id) => api.post(`/chat/rooms/${id}/join/`).then(res => res.data),
+  leaveRoom: (id) => api.post(`/chat/rooms/${id}/leave/`).then(res => res.data),
+  getMessages: (id) => api.get(`/chat/rooms/${id}/messages/`).then(res => res.data),
+  getStats: () => api.get('/chat/stats/').then(res => res.data),
+};
+
 export default api;

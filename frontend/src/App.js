@@ -129,7 +129,7 @@ function AppRoutes() {
       />
       
       {/* Default redirect */}
-      <Route path="/" element={<Navigate to="/dashboard" />} />
+      <Route path="/" element={<Navigate to="/login" />} />
     </Routes>
   );
 }
@@ -137,12 +137,14 @@ function AppRoutes() {
 function App() {
   return (
     <ThemeProvider>
-      <Router>
-        <div className="min-h-screen bg-background">
-          <AppRoutes />
-          <Toaster />
-        </div>
-      </Router>
+      <AuthProvider>
+        <Router>
+          <div className="min-h-screen bg-background">
+            <AppRoutes />
+            <Toaster />
+          </div>
+        </Router>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

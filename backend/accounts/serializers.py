@@ -90,9 +90,15 @@ class AnonymousUserSerializer(serializers.Serializer):
     alias = serializers.CharField(required=False)
     
     def create(self, validated_data):
+        # Generate unique username and alias
+        import time
+        timestamp = int(time.time())
+        username = f"anon_{timestamp}_{User.objects.count()}"
+        
         # Create anonymous user with random alias
         user = User.objects.create_user(
-            username=f"anon_{User.objects.count() + 1}",
+            username=username,
+            email=None,  # Explicitly set to None for anonymous users
             is_anonymous_user=True
         )
         UserProfile.objects.create(user=user)
