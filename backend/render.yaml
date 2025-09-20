@@ -1,0 +1,52 @@
+services:
+  - type: web
+    name: mindspace-backend
+    env: python
+    plan: starter
+    buildCommand: "pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput"
+    startCommand: "gunicorn mindspace.wsgi --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "mindspace-backend.onrender.com"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mindspace-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: mindspace-redis
+          property: connectionString
+
+  - type: worker
+    name: mindspace-worker
+    env: python
+    plan: starter
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "celery -A mindspace worker --loglevel=info"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mindspace-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: mindspace-redis
+          property: connectionString
+
+databases:
+  - name: mindspace-db
+    plan: starter
+
+  - name: mindspace-redis
+    type: redis
+    plan: starter
